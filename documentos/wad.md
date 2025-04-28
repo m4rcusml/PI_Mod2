@@ -24,12 +24,12 @@ Com foco na experiência do usuário, o projeto incorpora elementos de design re
 
 ## <a name="c2"></a>2. Visão Geral da Aplicação Web
 
-### 2.1. Personas (Semana 01)
+### 2.1. Personas
 <div align="center">
-  <img src="../assets/wad/persona.png" alt="Persona" style="max-width: 1440px;width: 80%;"/>
+  <img src="../assets/docs/persona.png" alt="Persona" style="max-width: 1440px;width: 80%;"/>
 </div>
 
-### 2.2. User Stories (Semana 01)
+### 2.2. User Stories
 
 ### User Stories
 
