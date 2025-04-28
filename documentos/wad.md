@@ -37,7 +37,7 @@ Com foco na experiência do usuário, o projeto incorpora elementos de design re
 
 2. **US02**: Como usuário, quero definir prioridades para minhas tarefas, para que eu possa focar nas atividades mais importantes primeiro.
 
-3. **US03**: Como usuário, quero receber notificações de tarefas próximas ao prazo, para que eu não perca deadlines importantes.
+3. **US03**: Como usuário, quero poder marcar tarefas como concluídas, para que eu possa acompanhar meu progresso e manter um histórico de realizações.
 
 #### Análise INVEST da US01:
 
