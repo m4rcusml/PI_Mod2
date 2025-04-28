@@ -1,10 +1,8 @@
 # Web Application Document - Projeto Individual - Módulo 2 - Inteli
 
-**_Os trechos em itálico servem apenas como guia para o preenchimento da seção. Por esse motivo, não devem fazer parte da documentação final._**
-
 ## Nome do Projeto
 
-#### Autor do projeto
+#### Marcus Felipe dos Santos Valente
 
 ## Sumário
 
@@ -27,12 +25,28 @@ Com foco na experiência do usuário, o projeto incorpora elementos de design re
 ## <a name="c2"></a>2. Visão Geral da Aplicação Web
 
 ### 2.1. Personas (Semana 01)
-
-*Posicione aqui sua(s) Persona(s) em forma de texto markdown com imagens, ou como imagem de template preenchido. Atualize esta seção ao longo do módulo se necessário.*
+<div align="center">
+  <img src="../assets/wad/persona.png" alt="Persona" style="max-width: 1440px;width: 80%;"/>
+</div>
 
 ### 2.2. User Stories (Semana 01)
 
-*Posicione aqui a lista de User Stories levantadas para o projeto. Siga o template de User Stories e utilize a referência USXX para numeração (US01, US02, US03, ...). Indique todas as User Stories mapeadas, mesmo aquelas que não forem implementadas ao longo do projeto. Não se esqueça de explicar o INVEST de 1 User Storie prioritária.*
+### User Stories
+
+1. **US01**: Como usuário, quero criar listas de tarefas personalizadas, para que eu possa organizar melhor minhas atividades por contexto ou projeto.
+
+2. **US02**: Como usuário, quero definir prioridades para minhas tarefas, para que eu possa focar nas atividades mais importantes primeiro.
+
+3. **US03**: Como usuário, quero receber notificações de tarefas próximas ao prazo, para que eu não perca deadlines importantes.
+
+#### Análise INVEST da US01:
+
+- **Independent**: A criação de listas personalizadas não depende de outras funcionalidades do sistema
+- **Negotiable**: O formato e atributos das listas podem ser ajustados conforme necessidade
+- **Valuable**: Permite melhor organização e segmentação das tarefas, agregando valor direto
+- **Estimable**: Implementação possui complexidade técnica clara e mensurável
+- **Small**: Escopo específico e bem delimitado
+- **Testable**: Pode ser validada através de testes funcionais e de interface
 
 ---
 

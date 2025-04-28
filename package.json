@@ -1,7 +1,7 @@
 {
-  "name": "mvc-boilerplate",
+  "name": "taskflow-maestro",
   "version": "1.0.0",
-  "description": "Boilerplate para estrutura MVC em JavaScript com PostgreSQL e testes",
+  "description": "Sistema de gerenciamento de tarefas eficiente e intuitivo",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -13,12 +13,27 @@
   "dependencies": {
     "dotenv": "^10.0.0",
     "ejs": "^3.1.10",
-    "express": "^4.17.1",
+    "express": "^4.21.2",
     "pg": "^8.7.1"
   },
   "devDependencies": {
     "jest": "^27.0.6",
     "nodemon": "^2.0.22",
     "supertest": "^6.1.3"
-  }
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/m4rcusml/PI_Mod2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/m4rcusml/PI_Mod2/issues"
+  },
+  "homepage": "https://github.com/m4rcusml/PI_Mod2#readme"
 }
