@@ -54,9 +54,19 @@ Com foco na experiência do usuário, o projeto incorpora elementos de design re
 
 ### 3.1. Modelagem do banco de dados  (Semana 3)
 
-*Posicione aqui os diagramas de modelos relacionais do seu banco de dados, apresentando todos os esquemas de tabelas e suas relações. Utilize texto para complementar suas explicações, se necessário.*
+#### Modelo relacional
 
-*Posicione também o modelo físico com o Schema do BD (arquivo .sql)*
+O modelo relacional representa a estrutura lógica do banco de dados, ilustrando as entidades principais do sistema e seus relacionamentos. No diagrama abaixo, são apresentadas as tabelas essenciais para o gerenciador de tarefas, incluindo as entidades de usuários, listas e tarefas, bem como seus atributos e as relações entre elas. Este modelo foi projetado para garantir a integridade referencial e permitir operações eficientes de criação, leitura, atualização e exclusão de dados.
+
+<div align="center">
+  <img src="../assets/docs/modelo-entidade-relacionamento.png" alt="Modelo relacional do banco de dados" style="max-width: 1440px;width: 80%;"/>
+</div>
+
+#### Modelo físico
+
+O modelo físico do banco de dados foi implementado utilizando PostgreSQL, definindo as estruturas das tabelas, relacionamentos e constraints necessárias para suportar o gerenciador de tarefas. O schema inclui tabelas para usuários, listas de tarefas e as próprias tarefas, com seus respectivos atributos e chaves.
+
+O arquivo SQL completo com o schema pode ser encontrado em: [others/modelo-fisico.sql](./others/modelo-fisico.sql)
 
 ### 3.1.1 BD e Models (Semana 5)
 *Descreva aqui os Models implementados no sistema web*

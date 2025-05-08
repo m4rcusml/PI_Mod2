@@ -1,10 +1,10 @@
-# Boilerplate MVC em Node.js com PostgreSQL
+# Gerenciador de tarefas em Node.js com PostgreSQL
 
-Este projeto é um boilerplate básico para uma aplicação Node.js seguindo o padrão MVC (Model-View-Controller), utilizando PostgreSQL como banco de dados.
+Este projeto é um gerenciador de tarefas para uma aplicação Node.js seguindo o padrão MVC (Model-View-Controller), utilizando PostgreSQL como banco de dados.
 
 ## Requisitos
 
-- Node.js (versão X.X.X)
+- Node.js (versão 22.X.X)
 - PostgreSQL (versão X.X.X)
 
 ## Instalação
@@ -12,8 +12,8 @@ Este projeto é um boilerplate básico para uma aplicação Node.js seguindo o p
 1. **Clonar o repositório:**
 
 ```bash
-   git clone https://github.com/seu-usuario/seu-projeto.git
-   cd seu-projeto
+   git clone https://github.com/m4rcusml/PI_Mod2.git
+   cd PI_Mod2
 ```
 
 2. **Instalar as dependências:**
@@ -63,10 +63,14 @@ Scripts Disponíveis
 Estrutura de Diretórios
 -----------------------
 
+* **`assets`**: Imagens e arquivos estáticos.
 * **`config/`**: Configurações do banco de dados e outras configurações do projeto.
 * **`controllers/`**: Controladores da aplicação (lógica de negócio).
+* **`documentos`**: Documentação do projeto.
 * **`models/`**: Modelos da aplicação (definições de dados e interações com o banco de dados).
 * **`routes/`**: Rotas da aplicação.
+* **`scripts`**: Scripts auxiliares do projeto.
+* **`services`**: Serviços da aplicação (interação com o banco de dados).
 * **`tests/`**: Testes automatizados.
 * **`views/`**: Views da aplicação (se aplicável).
 
@@ -80,4 +84,4 @@ Licença
 
 Este projeto está licenciado sob a Licença MIT.
 
-Este README.md fornece uma visão geral clara do boilerplate, incluindo instruções de instalação, configuração do banco de dados, funcionalidades principais, scripts disponíveis, estrutura de diretórios, como contribuir e informações de licença. Certifique-se de personalizar as seções com detalhes específicos do seu projeto conforme necessário.
+Este README.md fornece uma visão geral clara do projeto, incluindo instruções de instalação, configuração do banco de dados, funcionalidades principais, scripts disponíveis, estrutura de diretórios, como contribuir e informações de licença. Certifique-se de personalizar as seções com detalhes específicos do seu projeto conforme necessário.
