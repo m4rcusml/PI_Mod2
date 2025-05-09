@@ -1,6 +1,6 @@
 # Web Application Document - Projeto Individual - Módulo 2 - Inteli
 
-## Nome do Projeto
+## Organyze
 
 #### Marcus Felipe dos Santos Valente
 
