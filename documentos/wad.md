@@ -54,15 +54,92 @@ Com foco na experiência do usuário, o projeto incorpora elementos de design re
 
 ### 3.1. Modelagem do banco de dados  (Semana 3)
 
-#### Modelo relacional
+### Modelo lógico
 
-O modelo relacional representa a estrutura lógica do banco de dados, ilustrando as entidades principais do sistema e seus relacionamentos. No diagrama abaixo, são apresentadas as tabelas essenciais para o gerenciador de tarefas, incluindo as entidades de usuários, listas e tarefas, bem como seus atributos e as relações entre elas. Este modelo foi projetado para garantir a integridade referencial e permitir operações eficientes de criação, leitura, atualização e exclusão de dados.
+O modelo relacional representa a estrutura lógica do banco de dados, ilustrando as entidades principais do sistema e seus relacionamentos. No diagrama abaixo, são apresentadas as tabelas essenciais para o gerenciador de tarefas bem como seus atributos e as relações entre elas. O modelo abaixo foi projetado para um sistema de gerenciamento de tarefas colaborativas. Ele contempla usuários, tarefas, categorias, estados e o relacionamento entre esses elementos.
 
 <div align="center">
   <img src="../assets/docs/modelo-entidade-relacionamento.png" alt="Modelo relacional do banco de dados" style="max-width: 1440px;width: 80%;"/>
 </div>
 
-#### Modelo físico
+#### Tabela `Users`
+Armazena informações dos usuários da plataforma.
+
+- `id` (PK): Identificador único do usuário (chave primária).
+- `name`: Nome do usuário (até 100 caracteres).
+- `photo`: URL da foto de perfil do usuário (até 255 caracteres).
+
+#### Tabela `Tasks`
+Registra as tarefas criadas no sistema.
+
+- `id` (PK): Identificador único da tarefa (chave primária).
+- `title`: Título da tarefa (até 100 caracteres).
+- `description`: Descrição detalhada da tarefa (até 255 caracteres).
+- `created_at`: Data e hora de criação da tarefa.
+- `due_date`: Prazo de entrega da tarefa.
+- `category_id` (FK): Referência à categoria da tarefa.
+- `state_id` (FK): Referência ao estado atual da tarefa (ex: pendente, concluída).
+- `supertask_id` (FK): Referência à tarefa pai, caso essa tarefa seja uma subtarefa.
+
+#### Tabela `Categories`
+Define categorias que podem ser atribuídas às tarefas.
+
+- `id` (PK): Identificador único da categoria.
+- `name`: Nome da categoria (até 50 caracteres).
+
+#### Tabela `States`
+Define os estados possíveis para uma tarefa.
+
+- `id` (PK): Identificador único do estado.
+- `name`: Nome do estado (ex: "Pendente", "Em Progresso", "Concluído").
+
+#### Tabela `UserTask`
+Responsável por mapear a relação N:N entre usuários e tarefas.
+
+- `id` (PK): Identificador único do vínculo.
+- `task_id` (FK): Referência à tarefa atribuída.
+- `user_id` (FK): Referência ao usuário responsável.
+
+### Relacionamentos e Cardinalidade
+
+O modelo de dados possui os seguintes relacionamentos entre as tabelas, com suas respectivas cardinalidades e funções no sistema:
+
+#### 1. `Users` ↔ `Tasks` (N:N)
+- **Descrição:** Um usuário pode estar associado a várias tarefas (por exemplo, tarefas que ele criou ou das quais participa), e uma tarefa pode estar associada a vários usuários (em casos de colaboração).
+- **Implementação:** Essa relação é resolvida através da tabela intermediária `UserTask`, que contém as chaves estrangeiras `user_id` e `task_id`.
+- **Cardinalidade:**
+  - Um `User` pode estar vinculado a **nenhuma ou várias** `Tasks`.
+  - Uma `Task` pode estar vinculada a **nenhum ou vários** `Users`.
+
+#### 2. `Tasks` → `Categories` (N:1)
+- **Descrição:** Cada tarefa pertence a uma única categoria, mas uma categoria pode agrupar várias tarefas.
+- **Cardinalidade:**
+  - Uma `Task` pertence a **exatamente uma** `Category`.
+  - Uma `Category` pode conter **zero ou mais** `Tasks`.
+
+#### 3. `Tasks` → `States` (N:1)
+- **Descrição:** Cada tarefa tem um único estado atual (ex: "Pendente", "Concluído"). Um mesmo estado pode ser compartilhado por várias tarefas.
+- **Cardinalidade:**
+  - Uma `Task` pertence a **exatamente um** `State`.
+  - Um `State` pode estar associado a **várias** `Tasks`.
+
+#### 4. `Tasks` → `Tasks` (auto-relacionamento 1:N)
+- **Descrição:** Uma tarefa pode ser uma subtarefa de outra. Esse relacionamento permite criar estruturas hierárquicas de tarefas.
+- **Implementação:** Realizado através do campo `supertask_id`, que referencia a própria tabela `Tasks`.
+- **Cardinalidade:**
+  - Uma `Task` pode ser a subtarefa de **uma única** `Task` (ou de nenhuma, se for uma tarefa principal).
+  - Uma `Task` pode ter **zero ou várias** subtarefas.
+
+### Resumo visual das cardinalidades:
+
+| Tabela A   | Relação | Tabela B   | Tipo de Relacionamento |
+|------------|---------|------------|-------------------------|
+| Users      | N:N     | Tasks      | Via `UserTask`          |
+| Tasks      | N:1     | Categories | Muitas tarefas por categoria |
+| Tasks      | N:1     | States     | Muitas tarefas por estado     |
+| Tasks      | 1:N     | Tasks      | Uma tarefa com várias subtarefas |
+
+### Modelo físico
 
 O modelo físico do banco de dados foi implementado utilizando PostgreSQL, definindo as estruturas das tabelas, relacionamentos e constraints necessárias para suportar o gerenciador de tarefas. O schema inclui tabelas para usuários, listas de tarefas e as próprias tarefas, com seus respectivos atributos e chaves.
 
