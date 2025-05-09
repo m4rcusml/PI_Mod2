@@ -14,14 +14,14 @@ router.use((req, res, next) => {
 router.get('/', (req, res) => {
   res.render('layout/main', { 
     pageTitle: 'Página Inicial', 
-    contentPage: 'pages/page1' 
+    contentPage: '../pages/page1' 
   });
 });
 
 router.get('/about', (req, res) => {
   res.render('layout/main', { 
     pageTitle: 'Sobre', 
-    contentPage: 'pages/page2' 
+    contentPage: '../pages/page2' 
   });
 });
 
