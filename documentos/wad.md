@@ -1,8 +1,10 @@
 # Web Application Document - Projeto Individual - Módulo 2 - Inteli
 
-## Organyze
+<img src="../assets/extended-logo.png" alt="Organyze" style="width: 100%;max-width: 400px;"/>
 
-#### Marcus Felipe dos Santos Valente
+---
+
+#### Autor: Marcus Felipe dos Santos Valente
 
 ## Sumário
 
