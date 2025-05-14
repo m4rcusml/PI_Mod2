@@ -35,20 +35,22 @@ Com foco na experiência do usuário, o projeto incorpora elementos de design re
 
 ### User Stories
 
-1. **US01**: Como usuário, quero criar listas de tarefas personalizadas, para que eu possa organizar melhor minhas atividades por contexto ou projeto.
+1. **US01**: Como usuário, quero visualizar um dashboard com resumo das minhas principais tarefas, para que eu possa ter uma visão geral rápida das minhas atividades pendentes.
 
-2. **US02**: Como usuário, quero definir prioridades para minhas tarefas, para que eu possa focar nas atividades mais importantes primeiro.
+2. **US02**: Como usuário, quero adicionar novas tarefas com detalhes como título, descrição, prazo e categoria, para que eu possa registrar e gerenciar minhas atividades adequadamente.
 
-3. **US03**: Como usuário, quero poder marcar tarefas como concluídas, para que eu possa acompanhar meu progresso e manter um histórico de realizações.
+3. **US03**: Como usuário, quero visualizar minhas tarefas em um quadro Kanban, para que eu possa acompanhar o progresso das atividades por estado (pendente, em andamento, concluído).
+
+4. **US04**: Como usuário, quero acessar estatísticas e métricas sobre minha produtividade, para que eu possa analisar meu desempenho e identificar pontos de melhoria.
 
 #### Análise INVEST da US01:
 
-- **Independent**: A criação de listas personalizadas não depende de outras funcionalidades do sistema
-- **Negotiable**: O formato e atributos das listas podem ser ajustados conforme necessidade
-- **Valuable**: Permite melhor organização e segmentação das tarefas, agregando valor direto
-- **Estimable**: Implementação possui complexidade técnica clara e mensurável
-- **Small**: Escopo específico e bem delimitado
-- **Testable**: Pode ser validada através de testes funcionais e de interface
+- **Independent**: A visualização do dashboard não depende de outras funcionalidades
+- **Negotiable**: Os elementos e métricas exibidos podem ser ajustados
+- **Valuable**: Oferece visão consolidada das atividades, agregando valor direto
+- **Estimable**: Desenvolvimento possui complexidade técnica definida
+- **Small**: Escopo específico para exibição de informações
+- **Testable**: Pode ser validada através de testes de interface e integração
 
 ---
 
@@ -163,7 +165,18 @@ O arquivo SQL completo com o schema pode ser encontrado em: [others/modelo-fisic
 
 ### 3.3. Wireframes (Semana 03)
 
-*Posicione aqui as imagens do wireframe construído para sua solução e, opcionalmente, o link para acesso (mantenha o link sempre público para visualização).*
+O wireframe apresentado ilustra quatro telas principais do sistema, demonstrando o fluxo básico da aplicação:
+
+<div align="center">
+  <img src="../assets/docs/wireframe.png" alt="Wireframe" style="max-width: 1440px;width: 80%;"/>
+</div>
+
+As telas apresentadas são as seguintes:
+
+- Tela inicial com um grande resumo das principais tarefas a serem concluídas pelo usuário
+- Tela de adicionar tarefa
+- Tela de vizualização em kamban
+- Tela de estatísticas para vizualização do progresso na produtividade do usuário
 
 ### 3.4. Guia de estilos (Semana 05)
 
