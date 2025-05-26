@@ -14,6 +14,7 @@ app.set('view engine', 'ejs');
 
 // Configuração para servir arquivos estáticos
 app.use('/css', express.static(path.join(__dirname, 'views/css')));
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 // Configuração do MIME type (se ainda necessário)
 app.use((req, res, next) => {
