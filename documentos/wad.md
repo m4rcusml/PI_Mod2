@@ -205,6 +205,8 @@ As telas apresentadas são as seguintes:
 - Tela de vizualização em kamban
 - Tela de estatísticas para vizualização do progresso na produtividade do usuário
 
+Para mais detalhes, [clique aqui](https://www.figma.com/design/8lns9JLHhsVktHfxq3R76G/Organyze?node-id=48-2&t=gAN8nGISCVM2iUKM-1) para acessar o figma com a prototipação completa.
+
 ### 3.4. Guia de estilos (Semana 05)
 
 *Descreva aqui orientações gerais para o leitor sobre como utilizar os componentes do guia de estilos de sua solução.*
