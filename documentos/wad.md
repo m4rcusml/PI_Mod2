@@ -150,18 +150,45 @@ O modelo físico do banco de dados foi implementado utilizando PostgreSQL, defin
 O arquivo SQL completo com o schema pode ser encontrado em: [others/modelo-fisico.sql](./others/modelo-fisico.sql)
 
 ### 3.1.1 BD e Models (Semana 5)
-*Descreva aqui os Models implementados no sistema web*
+
+O sistema web Organyze implementa um conjunto de Models para interagir com o banco de dados PostgreSQL, encapsulando a lógica de acesso e manipulação dos dados das entidades principais da aplicação. Estes Models seguem o padrão de design de acesso a dados, oferecendo métodos estáticos para realizar operações CRUD (Create, Read, Update, Delete) de forma organizada e reutilizável. A seguir, descrevemos os Models implementados:
+
+*   **UserModel (`models/userModel.js`):** Representa a entidade `Users` no banco de dados. Este Model é responsável por gerenciar os dados dos usuários da plataforma, como nome e foto de perfil. Ele fornece métodos para buscar todos os usuários (`getAll`), buscar um usuário específico por ID (`getById`), criar um novo usuário (`create`), atualizar os dados de um usuário existente (`update`) e remover um usuário (`delete`). A interação com a tabela `users` é feita através de consultas SQL parametrizadas para garantir a segurança contra injeção de SQL.
+
+*   **TaskModel (`models/taskModel.js`):** Representa a entidade `Tasks`, que armazena as informações sobre as tarefas gerenciadas pelo sistema. Este Model lida com atributos como título, descrição, data de criação, prazo, categoria, estado e a possibilidade de subtarefas (através de `supertask_id`). Assim como o UserModel, oferece métodos CRUD (`getAll`, `getById`, `create`, `update`, `delete`) para interagir com a tabela `tasks`, facilitando a gestão das tarefas pelos controllers da aplicação.
+
+*   **CategoryModel (`models/categoryModel.js`):** Modela a entidade `Categories`, utilizada para classificar as tarefas. Este Model permite gerenciar as categorias disponíveis no sistema, possuindo métodos para listar todas as categorias (`getAll`), obter uma categoria por ID (`getById`), criar uma nova categoria (`create`), atualizar o nome de uma categoria (`update`) e excluir uma categoria (`delete`). Ele interage com a tabela `categories`.
+
+*   **StateModel (`models/stateModel.js`):** Representa a entidade `States`, que define os possíveis estados de uma tarefa (ex: Pendente, Em Progresso, Concluído). Similar aos outros Models, fornece funcionalidades CRUD (`getAll`, `getById`, `create`, `update`, `delete`) para gerenciar os estados disponíveis na aplicação, interagindo com a tabela `states`.
+
+Todos os Models utilizam o módulo `config/db.js` para estabelecer a conexão com o banco de dados PostgreSQL, garantindo uma camada de abstração e centralização da configuração do banco.
 
 ### 3.2. Arquitetura (Semana 5)
 
-*Posicione aqui o diagrama de arquitetura da sua solução de aplicação web. Atualize sempre que necessário.*
+A aplicação web Organyze adota o padrão arquitetural Model-View-Controller (MVC) para organizar sua estrutura e separar as responsabilidades. Essa abordagem promove um desenvolvimento mais modular, facilitando a manutenção e a escalabilidade do sistema. O diagrama abaixo ilustra a arquitetura MVC implementada:
 
-**Instruções para criação do diagrama de arquitetura**  
-- **Model**: A camada que lida com a lógica de negócios e interage com o banco de dados.
-- **View**: A camada responsável pela interface de usuário.
-- **Controller**: A camada que recebe as requisições, processa as ações e atualiza o modelo e a visualização.
-  
-*Adicione as setas e explicações sobre como os dados fluem entre o Model, Controller e View.*
+<div align="center">
+  <img src="../assets/docs/arquitetura-mvc.png" alt="Diagrama de Arquitetura MVC" style="max-width: 1440px;width: 80%;"/>
+</div>
+
+**Componentes da Arquitetura:**
+
+*   **Model:** A camada Model é responsável pela lógica de negócios e pela interação direta com o banco de dados PostgreSQL. Ela encapsula os dados da aplicação e as regras para manipulá-los. No projeto Organyze, os Models (`userModel.js`, `taskModel.js`, `categoryModel.js`, `stateModel.js`) contêm métodos estáticos para realizar operações CRUD (Create, Read, Update, Delete) nas tabelas correspondentes. Eles recebem solicitações dos Controllers, interagem com o banco de dados através do módulo `config/db.js` e retornam os dados processados.
+
+*   **View:** A camada View é responsável pela apresentação dos dados ao usuário e pela interface com a qual ele interage. No Organyze, as Views são implementadas utilizando EJS (Embedded JavaScript templates) e estão localizadas na pasta `views`. Elas recebem os dados processados pelos Controllers e os renderizam em formato HTML para serem exibidos no navegador do usuário. As Views também capturam as interações do usuário (como cliques em botões e preenchimento de formulários) e as enviam para os Controllers.
+
+*   **Controller:** A camada Controller atua como intermediária entre o Model e a View. Ela recebe as requisições HTTP do cliente (navegador), interpreta as ações solicitadas (como buscar dados, criar uma nova tarefa, etc.), interage com os Models apropriados para processar a lógica de negócios e manipular os dados, e, por fim, seleciona a View adequada para apresentar a resposta ao usuário, enviando os dados necessários para a renderização. Os Controllers (`userController.js`, `taskController.js`, etc.) orquestram o fluxo da aplicação, garantindo a separação entre a lógica de apresentação e a lógica de negócios.
+
+**Fluxo de Dados:**
+
+1.  O usuário interage com a **View** (ex: clica em um botão para listar tarefas).
+2.  A **View** envia uma requisição HTTP para o servidor, que é direcionada para uma rota específica definida no `server.js` e nos arquivos de rotas (`routes`).
+3.  A rota aciona a função correspondente no **Controller**.
+4.  O **Controller** processa a requisição, chama os métodos necessários no **Model** para buscar ou manipular os dados no banco de dados.
+5.  O **Model** executa as operações no banco de dados e retorna os resultados para o **Controller**.
+6.  O **Controller** recebe os dados do **Model**, realiza qualquer processamento adicional necessário e seleciona a **View** apropriada.
+7.  O **Controller** passa os dados para a **View**.
+8.  A **View** utiliza os dados recebidos para renderizar a página HTML final, que é enviada de volta ao navegador do usuário.
 
 ### 3.3. Wireframes (Semana 03)
 
@@ -188,7 +215,54 @@ As telas apresentadas são as seguintes:
 
 ### 3.6. WebAPI e endpoints (Semana 05)
 
-*Utilize um link para outra página de documentação contendo a descrição completa de cada endpoint. Ou descreva aqui cada endpoint criado para seu sistema.*  
+A aplicação Organyze expõe uma Web API RESTful para permitir a interação programática com os recursos do sistema, como usuários, tarefas, categorias e estados. Os endpoints seguem as convenções REST e utilizam JSON como formato de dados para requisições e respostas. A seguir, detalhamos os endpoints disponíveis, agrupados por recurso:
+
+**Recurso: Usuários (`/api/users`)**
+
+Gerencia os dados dos usuários da plataforma.
+
+*   **`GET /api/users/all`**: Retorna uma lista de todos os usuários cadastrados no sistema.
+*   **`GET /api/users/:id`**: Busca e retorna os dados de um usuário específico, identificado pelo seu `id`.
+*   **`POST /api/users/create`**: Cria um novo usuário. Espera receber no corpo da requisição (body) um objeto JSON contendo o `name` do usuário. Retorna os dados do usuário criado.
+*   **`PUT /api/users/:id`**: Atualiza os dados de um usuário existente, identificado pelo `id`. Espera receber no corpo da requisição um objeto JSON com os campos a serem atualizados (`name`, `photo`). Retorna os dados do usuário atualizado.
+*   **`DELETE /api/users/:id`**: Remove um usuário do sistema, identificado pelo `id`. Retorna uma confirmação da exclusão.
+
+**Recurso: Tarefas (`/api/tasks`)**
+
+Gerencia as tarefas do sistema.
+
+*   **`GET /api/tasks/all`**: Retorna uma lista de todas as tarefas cadastradas.
+*   **`GET /api/tasks/:id`**: Busca e retorna os detalhes de uma tarefa específica, identificada pelo seu `id`.
+*   **`POST /api/tasks/create`**: Cria uma nova tarefa. Espera receber no corpo da requisição um objeto JSON com os detalhes da tarefa (`title`, `description`, `due_date`, `category_id`, `state_id`, `supertask_id`, `user_id`). Retorna os dados da tarefa criada.
+*   **`PUT /api/tasks/:id`**: Atualiza os dados de uma tarefa existente, identificada pelo `id`. Espera receber no corpo da requisição um objeto JSON com os campos a serem atualizados. Retorna os dados da tarefa atualizada.
+*   **`DELETE /api/tasks/:id`**: Remove uma tarefa do sistema, identificada pelo `id`. Retorna os dados da tarefa removida.
+
+**Recurso: Categorias (`/api/categories`)**
+
+Gerencia as categorias utilizadas para classificar as tarefas.
+
+*   **`GET /api/categories/all`**: Retorna uma lista de todas as categorias disponíveis.
+*   **`GET /api/categories/:id`**: Busca e retorna os dados de uma categoria específica, identificada pelo seu `id`.
+*   **`POST /api/categories/create`**: Cria uma nova categoria. Espera receber no corpo da requisição um objeto JSON com o `name` da categoria. Retorna os dados da categoria criada.
+*   **`PUT /api/categories/:id`**: Atualiza o nome de uma categoria existente, identificada pelo `id`. Espera receber no corpo da requisição um objeto JSON com o novo `name`. Retorna os dados da categoria atualizada.
+*   **`DELETE /api/categories/:id`**: Remove uma categoria do sistema, identificada pelo `id`. Retorna os dados da categoria removida.
+
+**Recurso: Estados (`/api/states`)**
+
+Gerencia os estados possíveis para as tarefas.
+
+*   **`GET /api/states/all`**: Retorna uma lista de todos os estados disponíveis (ex: Pendente, Em Progresso, Concluído).
+*   **`GET /api/states/:id`**: Busca e retorna os dados de um estado específico, identificado pelo seu `id`.
+*   **`POST /api/states/create`**: Cria um novo estado. Espera receber no corpo da requisição um objeto JSON com o `name` do estado. Retorna os dados do estado criado.
+*   **`PUT /api/states/:id`**: Atualiza o nome de um estado existente, identificado pelo `id`. Espera receber no corpo da requisição um objeto JSON com o novo `name`. Retorna os dados do estado atualizado.
+*   **`DELETE /api/states/:id`**: Remove um estado do sistema, identificado pelo `id`. Retorna os dados do estado removido.
+
+Além dos endpoints da API, a aplicação também possui rotas para renderização das páginas HTML utilizando EJS, definidas em `routes/index.js`:
+
+*   **`GET /`**: Renderiza a página inicial de criação/login de usuário (`views/pages/create-user.ejs`).
+*   **`GET /home`**: Renderiza a página principal da aplicação (`views/pages/home.ejs`).
+*   **`GET /tasks/new`**: Renderiza a página para adicionar uma nova tarefa (`views/pages/new-task.ejs`).
+*   **`GET /tasks/:id/edit`**: Renderiza a página para editar uma tarefa existente (`views/pages/edit-task.ejs`).  
 
 ### 3.7 Interface e Navegação (Semana 07)
 

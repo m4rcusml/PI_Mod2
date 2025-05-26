@@ -1,0 +1,71 @@
+<p>Lista de tarefas:</p>
+
+<button>
+  <a href="/tasks/new">Criar Tarefa</a>
+</button>
+
+<table border="1" id="tasksTable">
+  <thead>
+    <tr>
+      <!-- <th>ID</th> -->
+      <th>Tìtulo</th>
+      <th>Descrição</th>
+      <th>Data de criação</th>
+      <th>Data de conclusão</th>
+      <th>Estado</th>
+      <th>Categoria</th>
+      <th>Usuário</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td colspan="3">Carregando tarefas...</td>
+    </tr>
+  </tbody>
+</table>
+
+<script>
+  // Função para buscar usuários da API e renderizar na tabela
+  async function fetchTasks() {
+    try {
+      const response = await fetch('/api/tasks/all');
+      if (!response.ok) {
+        throw new Error('Erro ao buscar usuários');
+      }
+      const tasks = await response.json();
+
+      const tableBody = document.querySelector('#tasksTable tbody');
+      tableBody.innerHTML = ''; // Limpa o conteúdo anterior
+
+      if (tasks.length > 0) {
+        tasks.forEach(task => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${task.title}</td>
+            <td>${task.description || 'Não informado'}</td>
+            <td>${new Date(task.created_at).toLocaleDateString('pt-BR')}</td>
+            <td>${new Date(task.due_date).toLocaleDateString('pt-BR') || 'Não informado'}</td>
+            <td>${task.state_id || 'Não informado'}</td>
+            <td>${task.category_id || 'Não informado'}</td>
+            <td>${task.user_id || 'Não informado'}</td>
+            <td>
+              <button><a href="/tasks/${task.id}/edit">Editar</a></button>
+              <button><a href="/tasks/${task.id}/delete">Excluir</a></button>
+            </td>
+          `;
+          tableBody.appendChild(row);
+        });
+      } else {
+        tableBody.innerHTML = '<tr><td colspan="3">Nenhuma tarefa encontrado.</td></tr>';
+      }
+    } catch (error) {
+      console.error(error);
+      const tableBody = document.querySelector('#tasksTable tbody');
+      tableBody.innerHTML = '<tr><td colspan="3">Erro ao carregar tarefas.</td></tr>';
+    }
+  }
+
+  // Chama a função ao carregar a página
+  fetchTasks();
+</script>

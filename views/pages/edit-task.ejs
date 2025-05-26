@@ -1,0 +1,29 @@
+<h2>Editar Tarefa</h2>
+
+<form>
+  <input type="text" name="title" value="${task.title}" />
+
+  <input type="text" name="description" value="${task.description}" />
+
+  <input type="date" name="due_date" value="${task.due_date}" />
+
+  <label for="category_id">Categoria:</label>
+  <select id="category_id" name="category_id" disabled required>
+    <option value="1">Categoria 1</option>
+    <option value="2">Categoria 2</option>
+    <option value="3">Categoria 3</option>
+  </select>
+
+  <label for="state_id">Estado:</label>
+  <select id="state_id" name="state_id" disabled required>
+    <option value="1">Estado 1</option>
+    <option value="2">Estado 2</option>
+    <option value="3">Estado 3</option>
+  </select>
+
+  <button type="submit">Salvar</button>
+</form>
+
+<script>
+  
+</script>

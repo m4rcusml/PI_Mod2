@@ -13,16 +13,16 @@ class User {
 
   static async create(data) {
     const result = await db.query(
-      'INSERT INTO users (name, email) VALUES ($1, $2) RETURNING *',
-      [data.name, data.email]
+      'INSERT INTO users (name, photo) VALUES ($1, $2) RETURNING *',
+      [data.name, data.photo]
     );
     return result.rows[0];
   }
 
   static async update(id, data) {
     const result = await db.query(
-      'UPDATE users SET name = $1, email = $2 WHERE id = $3 RETURNING *',
-      [data.name, data.email, id]
+      'UPDATE users SET name = $1, photo = $2 WHERE id = $3 RETURNING *',
+      [data.name, data.photo, id]
     );
     return result.rows[0];
   }

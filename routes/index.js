@@ -2,26 +2,32 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 
-// Configuração da view engine
-router.use((req, res, next) => {
-  res.locals.app = {
-    views: path.join(__dirname, '../views')
-  };
-  next();
-});
-
 // Rotas
 router.get('/', (req, res) => {
-  res.render('layout/main', { 
-    pageTitle: 'Página Inicial', 
-    contentPage: '../pages/page1' 
+  res.render(path.join(__dirname, '../views/layout/main'), {
+    pageTitle: 'Entrar',
+    contentPage: path.join(__dirname, '../views/pages/create-user')
   });
 });
 
-router.get('/about', (req, res) => {
-  res.render('layout/main', { 
-    pageTitle: 'Sobre', 
-    contentPage: '../pages/page2' 
+router.get('/home', (req, res) => {
+  res.render(path.join(__dirname, '../views/layout/main'), {
+    pageTitle: 'Home',
+    contentPage: path.join(__dirname, '../views/pages/home')
+  });
+});
+
+router.get('/tasks/new', (req, res) => {
+  res.render(path.join(__dirname, '../views/layout/main'), {
+    pageTitle: 'Adicionar Tarefa',
+    contentPage: path.join(__dirname, '../views/pages/new-task')
+  });
+});
+
+router.get('/tasks/:id/edit', (req, res) => {
+  res.render(path.join(__dirname, '../views/layout/main'), {
+    pageTitle: 'Editar Tarefa',
+    contentPage: path.join(__dirname, '../views/pages/edit-task')
   });
 });
 

@@ -7,29 +7,43 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE TABLE IF NOT EXISTS users (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   name VARCHAR(100) NOT NULL,
-  email VARCHAR(100) UNIQUE NOT NULL
+  photo VARCHAR(200)
 );
 
--- Inserir 20 usuários com nomes e emails aleatórios
-INSERT INTO users (name, email)
-VALUES 
-  ('Alice Smith', 'alice.smith@example.com'),
-  ('Bob Johnson', 'bob.johnson@example.com'),
-  ('Carol Williams', 'carol.williams@example.com'),
-  ('David Jones', 'david.jones@example.com'),
-  ('Emma Brown', 'emma.brown@example.com'),
-  ('Frank Davis', 'frank.davis@example.com'),
-  ('Grace Wilson', 'grace.wilson@example.com'),
-  ('Henry Moore', 'henry.moore@example.com'),
-  ('Isabella Taylor', 'isabella.taylor@example.com'),
-  ('Jack Lee', 'jack.lee@example.com'),
-  ('Kate Clark', 'kate.clark@example.com'),
-  ('Liam Martinez', 'liam.martinez@example.com'),
-  ('Mia Rodriguez', 'mia.rodriguez@example.com'),
-  ('Noah Garcia', 'noah.garcia@example.com'),
-  ('Olivia Hernandez', 'olivia.hernandez@example.com'),
-  ('Patrick Martinez', 'patrick.martinez@example.com'),
-  ('Quinn Lopez', 'quinn.lopez@example.com'),
-  ('Rose Thompson', 'rose.thompson@example.com'),
-  ('Samuel Perez', 'samuel.perez@example.com'),
-  ('Tara Scott', 'tara.scott@example.com');
+-- Criar tabela de categorias com UUID como chave primária
+CREATE TABLE IF NOT EXISTS categories (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  name VARCHAR(50) NOT NULL
+);
+
+-- Criar tabela de estados com UUID como chave primária
+CREATE TABLE IF NOT EXISTS states (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  name VARCHAR(50) NOT NULL
+);
+
+-- Criar tabela de tarefas com UUID como chave primária
+CREATE TABLE IF NOT EXISTS tasks (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  title VARCHAR(100) NOT NULL,
+  description VARCHAR(255),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  due_date DATE,
+  category_id UUID,
+  state_id UUID,
+  supertask_id UUID,
+  user_id UUID,
+  FOREIGN KEY (category_id) REFERENCES categories (id),
+  FOREIGN KEY (state_id) REFERENCES states (id),
+  FOREIGN KEY (supertask_id) REFERENCES tasks (id),
+  FOREIGN KEY (user_id) REFERENCES users (id)
+);
+
+-- Criar tabela de relacionamento N:N entre usuários e tarefas
+CREATE TABLE IF NOT EXISTS user_tasks (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  task_id UUID NOT NULL,
+  user_id UUID NOT NULL,
+  FOREIGN KEY (task_id) REFERENCES tasks (id),
+  FOREIGN KEY (user_id) REFERENCES users (id)
+);
