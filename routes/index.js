@@ -48,6 +48,27 @@ router.get('/create-status', (req, res) => {
   });
 });
 
+router.get('/kanban', (req, res) => {
+  res.render(path.join(__dirname, '../views/layout/main'), {
+    pageTitle: 'Kanban',
+    contentPage: path.join(__dirname, '../views/pages/kanban')
+  });
+});
+
+router.get('/tasks', (req, res) => {
+  res.render(path.join(__dirname, '../views/layout/main'), {
+    pageTitle: 'Tarefas',
+    contentPage: path.join(__dirname, '../views/pages/tasks')
+  });
+});
+
+router.get('/profile', (req, res) => {
+  res.render(path.join(__dirname, '../views/layout/main'), {
+    pageTitle: 'Perfil',
+    contentPage: path.join(__dirname, '../views/pages/profile')
+  });
+});
+
 router.get('/tasks/:id/edit', (req, res) => {
   res.render(path.join(__dirname, '../views/layout/main'), {
     pageTitle: 'Editar Tarefa',

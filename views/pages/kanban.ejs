@@ -1,0 +1,393 @@
+<style>
+    /* Kanban page specific styles */
+    .kanban-container {
+        padding: 24px;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .page-header {
+        margin-bottom: 32px;
+    }
+
+    .page-title {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--foreground-color);
+        margin-bottom: 8px;
+    }
+
+    .page-subtitle {
+        font-size: 16px;
+        color: #6b7280;
+    }
+
+    .user-info {
+        background: var(--card-color);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .user-welcome {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--foreground-color);
+    }
+
+    .back-button {
+        background: transparent;
+        color: var(--primary-color);
+        border: none;
+        font-size: 14px;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+    .back-button:hover {
+        color: #4f46e5;
+    }
+
+    .kanban-board {
+        display: flex;
+        gap: 24px;
+        overflow-x: auto;
+        flex: 1;
+        padding-bottom: 20px;
+    }
+
+    .kanban-column {
+        background: var(--card-color);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        min-width: 300px;
+        max-width: 300px;
+        display: flex;
+        flex-direction: column;
+        max-height: 100%;
+    }
+
+    .column-header {
+        padding: 20px;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .column-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--foreground-color);
+    }
+
+    .task-count {
+        background: var(--primary-color);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .column-content {
+        padding: 20px;
+        flex: 1;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .kanban-card {
+        background: var(--background-color);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 16px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .kanban-card:hover {
+        border-color: var(--primary-color);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(136, 59, 238, 0.15);
+    }
+
+    .card-title {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: var(--foreground-color);
+    }
+
+    .card-description {
+        font-size: 14px;
+        color: #9ca3af;
+        margin-bottom: 12px;
+        line-height: 1.4;
+    }
+
+    .card-meta {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .card-tag {
+        background: var(--border-color);
+        color: var(--foreground-color);
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .card-date {
+        background: var(--primary-color);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .empty-column {
+        text-align: center;
+        color: #6b7280;
+        padding: 40px 20px;
+        font-style: italic;
+    }
+
+    .loading-state {
+        text-align: center;
+        color: var(--primary-color);
+        font-weight: 500;
+        padding: 40px 20px;
+    }
+
+    .error-message {
+        background: #fee2e2;
+        border: 1px solid #fecaca;
+        color: #dc2626;
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-bottom: 16px;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .kanban-container {
+            padding: 16px;
+        }
+
+        .kanban-board {
+            gap: 16px;
+        }
+
+        .kanban-column {
+            min-width: 280px;
+            max-width: 280px;
+        }
+
+        .page-title {
+            font-size: 28px;
+        }
+    }
+</style>
+
+<div class="kanban-container">
+    <!-- User Info -->
+    <div class="user-info">
+        <div class="user-welcome" id="userWelcome">Carregando...</div>
+        <button class="back-button" onclick="goBack()">← Voltar para Home</button>
+    </div>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1 class="page-title">Kanban</h1>
+        <p class="page-subtitle">Visualize e gerencie suas tarefas em formato de quadro</p>
+    </div>
+
+    <!-- Error Message -->
+    <div class="error-message" id="errorMessage" style="display: none;"></div>
+
+    <!-- Kanban Board -->
+    <div class="kanban-board" id="kanbanBoard">
+        <div class="loading-state">
+            Carregando tarefas...
+        </div>
+    </div>
+</div>
+
+<script>
+    // Global variables
+    let currentUserName = null;
+    let allTasks = [];
+    let states = [];
+
+    // Initialize user from localStorage
+    function initializeUser() {
+        currentUserName = localStorage.getItem('userName');
+        
+        if (!currentUserName) {
+            window.location.href = '/login';
+            return;
+        }
+
+        document.getElementById('userWelcome').textContent = `Kanban de: ${currentUserName}`;
+    }
+
+    // Show error message
+    function showError(message) {
+        const errorElement = document.getElementById('errorMessage');
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+    }
+
+    // Hide error message
+    function hideError() {
+        document.getElementById('errorMessage').style.display = 'none';
+    }
+
+    // Fetch tasks from API
+    async function fetchTasks() {
+        try {
+            if (!currentUserName) {
+                showError('Usuário não identificado');
+                return;
+            }
+
+            const url = `/api/tasks?user_name=${encodeURIComponent(currentUserName)}`;
+            console.log('Fazendo requisição para:', url);
+            
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`Erro HTTP: ${response.status}`);
+            }
+            
+            allTasks = await response.json();
+            console.log('Tarefas recebidas:', allTasks);
+            
+            hideError();
+            renderKanbanBoard();
+
+        } catch (error) {
+            console.error('Erro ao carregar tarefas:', error);
+            showError('Erro ao carregar tarefas: ' + error.message);
+        }
+    }
+
+    // Fetch states from API
+    async function fetchStates() {
+        try {
+            const response = await fetch('/api/states');
+            if (!response.ok) {
+                throw new Error(`Erro HTTP: ${response.status}`);
+            }
+            
+            states = await response.json();
+            console.log('Estados recebidos:', states);
+
+        } catch (error) {
+            console.error('Erro ao carregar estados:', error);
+            // Se não conseguir carregar estados, usar estados padrão
+            states = [
+                { id: 1, name: 'Pendente' },
+                { id: 2, name: 'Em Progresso' },
+                { id: 3, name: 'Concluído' }
+            ];
+        }
+    }
+
+    // Render Kanban board
+    function renderKanbanBoard() {
+        const board = document.getElementById('kanbanBoard');
+        
+        if (states.length === 0) {
+            board.innerHTML = '<div class="loading-state">Carregando estados...</div>';
+            return;
+        }
+
+        // Group tasks by state
+        const tasksByState = {};
+        states.forEach(state => {
+            tasksByState[state.name] = allTasks.filter(task => 
+                task.state_name === state.name
+            );
+        });
+
+        // Add tasks without state to "Pendente"
+        const tasksWithoutState = allTasks.filter(task => !task.state_name);
+        if (tasksByState['Pendente']) {
+            tasksByState['Pendente'] = [...tasksByState['Pendente'], ...tasksWithoutState];
+        }
+
+        // Render columns
+        board.innerHTML = states.map(state => {
+            const stateTasks = tasksByState[state.name] || [];
+            
+            return `
+                <div class="kanban-column">
+                    <div class="column-header">
+                        <h3 class="column-title">${state.name}</h3>
+                        <span class="task-count">${stateTasks.length}</span>
+                    </div>
+                    <div class="column-content">
+                        ${stateTasks.length > 0 
+                            ? stateTasks.map(task => renderKanbanCard(task)).join('')
+                            : '<div class="empty-column">Nenhuma tarefa neste estado</div>'
+                        }
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    // Render individual Kanban card
+    function renderKanbanCard(task) {
+        const dueDate = task.due_date ? new Date(task.due_date).toLocaleDateString('pt-BR') : null;
+        const description = task.description ? task.description.substring(0, 100) + (task.description.length > 100 ? '...' : '') : '';
+
+        return `
+            <div class="kanban-card" onclick="editTask(${task.id})">
+                <div class="card-title">${task.title}</div>
+                ${description ? `<div class="card-description">${description}</div>` : ''}
+                <div class="card-meta">
+                    ${task.category_name ? `<span class="card-tag">${task.category_name}</span>` : ''}
+                    ${dueDate ? `<span class="card-date">${dueDate}</span>` : ''}
+                </div>
+            </div>
+        `;
+    }
+
+    // Edit task function
+    function editTask(taskId) {
+        if (currentUserName) {
+            window.location.href = `/tasks/${taskId}/edit?userName=${encodeURIComponent(currentUserName)}`;
+        }
+    }
+
+    // Navigation functions
+    function goBack() {
+        if (currentUserName) {
+            window.location.href = `/home?userName=${encodeURIComponent(currentUserName)}`;
+        } else {
+            window.location.href = '/login';
+        }
+    }
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', async function() {
+        initializeUser();
+        await fetchStates();
+        await fetchTasks();
+    });
+</script>
+

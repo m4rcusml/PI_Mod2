@@ -36,14 +36,35 @@ const getAllTasks = async (req, res) => {
 
 const getTaskById = async (req, res) => {
   try {
-    const task = await TaskModel.getById(req.params.id);
+    console.log('=== Controller.getTaskById ===');
+    console.log('ID recebido:', req.params.id);
+    console.log('Tipo do ID:', typeof req.params.id);
+    console.log('URL completa:', req.originalUrl);
+    console.log('Método HTTP:', req.method);
+    
+    // Validar se o ID é um número válido
+    const taskId = parseInt(req.params.id);
+    if (isNaN(taskId) || taskId <= 0) {
+      console.log('ID inválido:', req.params.id);
+      return res.status(400).json({ error: 'ID da tarefa inválido' });
+    }
+    
+    console.log('ID validado:', taskId);
+    
+    const task = await TaskModel.getById(taskId);
+    console.log('Tarefa retornada do model:', task);
+    
     if (task) {
+      console.log('Tarefa encontrada, enviando resposta');
       res.status(200).json(task);
     } else {
+      console.log('Tarefa não encontrada');
       res.status(404).json({ error: 'Tarefa não encontrada' });
     }
   } catch (error) {
-    console.error('Erro ao buscar tarefa por ID:', error);
+    console.error('=== ERRO no Controller.getTaskById ===');
+    console.error('Erro:', error.message);
+    console.error('Stack trace:', error.stack);
     res.status(500).json({ error: error.message });
   }
 };

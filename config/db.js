@@ -12,7 +12,28 @@ const pool = new Pool({
   ssl: isSSL ? { rejectUnauthorized: false } : false,
 });
 
+// Adicionar logs de conexão
+pool.on('connect', () => {
+  console.log('Conectado ao banco de dados PostgreSQL');
+});
+
+pool.on('error', (err) => {
+  console.error('Erro inesperado no cliente do banco de dados:', err);
+  process.exit(-1);
+});
+
 module.exports = {
-  query: (text, params) => pool.query(text, params),
+  query: async (text, params) => {
+    try {
+      console.log('Executando query:', text);
+      console.log('Parâmetros:', params);
+      const result = await pool.query(text, params);
+      console.log('Query executada com sucesso, linhas retornadas:', result.rowCount);
+      return result;
+    } catch (error) {
+      console.error('Erro na execução da query:', error);
+      throw error;
+    }
+  },
   connect: () => pool.connect(),
 };

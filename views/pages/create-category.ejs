@@ -259,57 +259,57 @@
 
     // Initialize user from localStorage
     function initializeUser() {
-        currentUserName = localStorage.getItem('userName');
+        currentUserName = localStorage.getItem(\'userName\');
         
         if (!currentUserName) {
-            window.location.href = '/login';
+            window.location.href = \'/login\';
             return;
         }
 
-        document.getElementById('userWelcome').textContent = `Criando categoria para: ${currentUserName}`;
+        document.getElementById(\'userWelcome\').textContent = `Criando categoria para: ${currentUserName}`;
     }
 
     // DOM elements
-    const categoryForm = document.getElementById('categoryForm');
-    const submitButton = document.getElementById('submitButton');
-    const loadingState = document.getElementById('loadingState');
-    const errorMessage = document.getElementById('errorMessage');
-    const successMessage = document.getElementById('successMessage');
+    const categoryForm = document.getElementById(\'categoryForm\');
+    const submitButton = document.getElementById(\'submitButton\');
+    const loadingState = document.getElementById(\'loadingState\');
+    const errorMessage = document.getElementById(\'errorMessage\');
+    const successMessage = document.getElementById(\'successMessage\');
 
     // Show error message
     function showError(message) {
         errorMessage.textContent = message;
-        errorMessage.style.display = 'block';
-        successMessage.style.display = 'none';
+        errorMessage.style.display = \'block\';
+        successMessage.style.display = \'none\';
     }
 
     // Show success message
     function showSuccess(message) {
         successMessage.textContent = message;
-        successMessage.style.display = 'block';
-        errorMessage.style.display = 'none';
+        successMessage.style.display = \'block\';
+        errorMessage.style.display = \'none\';
     }
 
     // Hide messages
     function hideMessages() {
-        errorMessage.style.display = 'none';
-        successMessage.style.display = 'none';
+        errorMessage.style.display = \'none\';
+        successMessage.style.display = \'none\';
     }
 
     // Form submission
-    categoryForm.addEventListener('submit', async (event) => {
+    categoryForm.addEventListener(\'submit\', async (event) => {
         event.preventDefault();
         hideMessages();
 
         if (!currentUserName) {
-            showError('Usuário não identificado. Faça login novamente.');
+            showError(\'Usuário não identificado. Faça login novamente.\');
             return;
         }
 
-        const name = document.getElementById('name').value.trim();
+        const name = document.getElementById(\'name\').value.trim();
 
         if (!name) {
-            showError('O nome da categoria é obrigatório.');
+            showError(\'O nome da categoria é obrigatório.\');
             return;
         }
 
@@ -317,29 +317,29 @@
             name
         };
 
-        console.log('Enviando dados da categoria:', categoryData);
+        console.log(\'Enviando dados da categoria:\', categoryData);
 
         // Show loading state
         submitButton.disabled = true;
-        loadingState.style.display = 'block';
+        loadingState.style.display = \'block\';
 
         try {
-            const response = await fetch('/api/categories', {
-                method: 'POST',
+            const response = await fetch(\'/api/categories\', {
+                method: \'POST\',
                 headers: {
-                    'Content-Type': 'application/json'
+                    \'Content-Type\': \'application/json\'
                 },
                 body: JSON.stringify(categoryData)
             });
 
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.error || 'Erro ao criar categoria');
+                throw new Error(errorData.error || \'Erro ao criar categoria\');
             }
 
             const newCategory = await response.json();
-            console.log('Categoria criada:', newCategory);
-            showSuccess('Categoria criada com sucesso!');
+            console.log(\'Categoria criada:\', newCategory);
+            showSuccess(\'Categoria criada com sucesso!\');
             
             // Redirect to new-task after a short delay
             setTimeout(() => {
@@ -347,12 +347,12 @@
             }, 1500);
 
         } catch (error) {
-            console.error('Erro ao criar categoria:', error);
-            showError(error.message || 'Erro ao criar categoria. Tente novamente.');
+            console.error(\'Erro ao criar categoria:\', error);
+            showError(error.message || \'Erro ao criar categoria. Tente novamente.\');
         } finally {
             // Hide loading state
             submitButton.disabled = false;
-            loadingState.style.display = 'none';
+            loadingState.style.display = \'none\';
         }
     });
 
@@ -361,12 +361,12 @@
         if (currentUserName) {
             window.location.href = `/new-task?userName=${encodeURIComponent(currentUserName)}`;
         } else {
-            window.location.href = '/login';
+            window.location.href = \'/login\';
         }
     }
 
     // Initialize page
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener(\'DOMContentLoaded\', function() {
         initializeUser();
     });
 </script>

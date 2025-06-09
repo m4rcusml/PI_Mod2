@@ -259,57 +259,57 @@
 
     // Initialize user from localStorage
     function initializeUser() {
-        currentUserName = localStorage.getItem('userName');
+        currentUserName = localStorage.getItem(\'userName\');
         
         if (!currentUserName) {
-            window.location.href = '/login';
+            window.location.href = \'/login\';
             return;
         }
 
-        document.getElementById('userWelcome').textContent = `Criando estado para: ${currentUserName}`;
+        document.getElementById(\'userWelcome\').textContent = `Criando estado para: ${currentUserName}`;
     }
 
     // DOM elements
-    const stateForm = document.getElementById('stateForm');
-    const submitButton = document.getElementById('submitButton');
-    const loadingState = document.getElementById('loadingState');
-    const errorMessage = document.getElementById('errorMessage');
-    const successMessage = document.getElementById('successMessage');
+    const stateForm = document.getElementById(\'stateForm\');
+    const submitButton = document.getElementById(\'submitButton\');
+    const loadingState = document.getElementById(\'loadingState\');
+    const errorMessage = document.getElementById(\'errorMessage\');
+    const successMessage = document.getElementById(\'successMessage\');
 
     // Show error message
     function showError(message) {
         errorMessage.textContent = message;
-        errorMessage.style.display = 'block';
-        successMessage.style.display = 'none';
+        errorMessage.style.display = \'block\';
+        successMessage.style.display = \'none\';
     }
 
     // Show success message
     function showSuccess(message) {
         successMessage.textContent = message;
-        successMessage.style.display = 'block';
-        errorMessage.style.display = 'none';
+        successMessage.style.display = \'block\';
+        errorMessage.style.display = \'none\';
     }
 
     // Hide messages
     function hideMessages() {
-        errorMessage.style.display = 'none';
-        successMessage.style.display = 'none';
+        errorMessage.style.display = \'none\';
+        successMessage.style.display = \'none\';
     }
 
     // Form submission
-    stateForm.addEventListener('submit', async (event) => {
+    stateForm.addEventListener(\'submit\', async (event) => {
         event.preventDefault();
         hideMessages();
 
         if (!currentUserName) {
-            showError('Usuário não identificado. Faça login novamente.');
+            showError(\'Usuário não identificado. Faça login novamente.\');
             return;
         }
 
-        const name = document.getElementById('name').value.trim();
+        const name = document.getElementById(\'name\').value.trim();
 
         if (!name) {
-            showError('O nome do estado é obrigatório.');
+            showError(\'O nome do estado é obrigatório.\');
             return;
         }
 
@@ -317,29 +317,29 @@
             name
         };
 
-        console.log('Enviando dados do estado:', stateData);
+        console.log(\'Enviando dados do estado:\', stateData);
 
         // Show loading state
         submitButton.disabled = true;
-        loadingState.style.display = 'block';
+        loadingState.style.display = \'block\';
 
         try {
-            const response = await fetch('/api/states', {
-                method: 'POST',
+            const response = await fetch(\'/api/states\', {
+                method: \'POST\',
                 headers: {
-                    'Content-Type': 'application/json'
+                    \'Content-Type\': \'application/json\'
                 },
                 body: JSON.stringify(stateData)
             });
 
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.error || 'Erro ao criar estado');
+                throw new Error(errorData.error || \'Erro ao criar estado\');
             }
 
             const newState = await response.json();
-            console.log('Estado criado:', newState);
-            showSuccess('Estado criado com sucesso!');
+            console.log(\'Estado criado:\', newState);
+            showSuccess(\'Estado criado com sucesso!\');
             
             // Redirect to new-task after a short delay
             setTimeout(() => {
@@ -347,12 +347,12 @@
             }, 1500);
 
         } catch (error) {
-            console.error('Erro ao criar estado:', error);
-            showError(error.message || 'Erro ao criar estado. Tente novamente.');
+            console.error(\'Erro ao criar estado:\', error);
+            showError(error.message || \'Erro ao criar estado. Tente novamente.\');
         } finally {
             // Hide loading state
             submitButton.disabled = false;
-            loadingState.style.display = 'none';
+            loadingState.style.display = \'none\';
         }
     });
 
@@ -361,12 +361,12 @@
         if (currentUserName) {
             window.location.href = `/new-task?userName=${encodeURIComponent(currentUserName)}`;
         } else {
-            window.location.href = '/login';
+            window.location.href = \'/login\';
         }
     }
 
     // Initialize page
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener(\'DOMContentLoaded\', function() {
         initializeUser();
     });
 </script>
