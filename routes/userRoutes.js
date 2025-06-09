@@ -2,10 +2,15 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 
-router.get('/all', userController.getAllUsers);
-router.get('/:id', userController.getUserById);
-router.post('/create', userController.createUser);
-router.put('/:id', userController.updateUser);
-router.delete('/:id', userController.deleteUser);
+// Rota de login
+router.post('/login', userController.login);
+
+// Rotas CRUD usando name como identificador
+router.get('/', userController.getAllUsers);
+router.get('/:name', userController.getUserByName);
+router.post('/', userController.createUser);
+router.put('/:name', userController.updateUser);
+router.delete('/:name', userController.deleteUser);
 
 module.exports = router;
+

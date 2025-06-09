@@ -16,7 +16,7 @@ app.set('view engine', 'ejs');
 app.use('/css', express.static(path.join(__dirname, 'views/css')));
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
-// Configuração do MIME type (se ainda necessário)
+// Configuração do MIME type
 app.use((req, res, next) => {
   if (req.path.endsWith('.css')) {
     res.type('text/css');
@@ -27,14 +27,18 @@ app.use((req, res, next) => {
   next();
 });
 
-// Rotas
+// Rotas principais
 app.use('/', routes);
+
+// Rotas da API
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/tasks', require('./routes/taskRoutes'));
 app.use('/api/categories', require('./routes/categoryRoutes'));
 app.use('/api/states', require('./routes/stateRoutes'));
+app.use('/api/user-tasks', require('./routes/userTaskRoutes'));
 
 // Inicializa o servidor
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
+

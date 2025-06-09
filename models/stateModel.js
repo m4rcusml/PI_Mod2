@@ -2,7 +2,9 @@ const db = require('../config/db');
 
 class State {
   static async getAll() {
-    const result = await db.query('SELECT * FROM states');
+    console.log('Executando query: SELECT * FROM states');
+    const result = await db.query('SELECT * FROM states ORDER BY name');
+    console.log('Resultado da query states:', result.rows);
     return result.rows;
   }
 
@@ -34,3 +36,4 @@ class State {
 }
 
 module.exports = State;
+

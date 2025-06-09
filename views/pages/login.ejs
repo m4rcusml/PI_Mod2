@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Organize</title>
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <h2>Bem-vindo ao Organize!</h2>
+            <p>Digite seu nome para continuar</p>
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="username">Nome de Usuário</label>
+                    <input type="text" id="username" name="username" required placeholder="Digite seu nome">
+                </div>
+                <button type="submit" class="login-button">Entrar</button>
+            </form>
+            <div id="loading" class="loading" style="display: none;">
+                <p>Carregando...</p>
+            </div>
+            <div id="error" class="error" style="display: none;">
+                <p></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const username = document.getElementById("username").value.trim();
+            const loadingDiv = document.getElementById("loading");
+            const errorDiv = document.getElementById("error");
+            const submitButton = document.querySelector(".login-button");
+
+            if (!username) {
+                showError("Por favor, digite seu nome.");
+                return;
+            }
+
+            // Show loading state
+            loadingDiv.style.display = "block";
+            errorDiv.style.display = "none";
+            submitButton.disabled = true;
+
+            try {
+                // Use the login endpoint - agora cria automaticamente se não existir
+                const response = await fetch('/api/users/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name: username })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    // Login/criação bem-sucedida
+                    localStorage.setItem("userName", data.user.name);
+                    
+                    if (data.created) {
+                        console.log("Novo usuário criado:", data.user.name);
+                    }
+                    
+                    // Redirecionar usando o nome do usuário
+                    window.location.href = `/home?userName=${encodeURIComponent(data.user.name)}`;
+                } else {
+                    throw new Error(data.error || "Erro desconhecido");
+                }
+            } catch (error) {
+                console.error("Erro no login:", error);
+                showError("Ocorreu um erro. Por favor, tente novamente.");
+            } finally {
+                // Hide loading state
+                loadingDiv.style.display = "none";
+                submitButton.disabled = false;
+            }
+        });
+
+        function showError(message) {
+            const errorDiv = document.getElementById("error");
+            errorDiv.querySelector("p").textContent = message;
+            errorDiv.style.display = "block";
+        }
+    </script>
+</body>
+</html>
+

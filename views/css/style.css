@@ -1,4 +1,4 @@
-/* Reset básico para remover estilos padrão do navegador */
+/* Reset básico */
 * {
   margin: 0;
   padding: 0;
@@ -13,50 +13,61 @@
   --card-color: #1A1A1E;
 }
 
-/* Estilo para o corpo da página */
 body {
   font-family: Inter, Arial, sans-serif;
   line-height: 1.6;
   background-color: var(--background-color);
   color: var(--foreground-color);
+  height: 100vh;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: 260px 1fr;
+  grid-template-areas: 
+    "header header"
+    "sidebar main";
 }
 
-/* Estilo para o cabeçalho */
+/* Header */
 header {
+  grid-area: header;
   background-color: var(--card-color);
-  padding: 10px 0;
-  text-align: center;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
 }
 
-/* Estilo para a navegação dentro do cabeçalho */
-header nav ul {
-  list-style-type: none;
+header .logo img {
+  height: 40px;
 }
 
-header nav ul li {
-  display: inline;
-  margin-right: 20px;
+/* Sidebar */
+.sidebar {
+  grid-area: sidebar;
+  background-color: var(--background-color);
+  border-right: 2px solid var(--border-color);
+  overflow-y: auto;
 }
 
-header nav ul li a {
-  text-decoration: none;
-}
-
-header nav ul li a:hover {
-  text-decoration: underline;
-}
-
-/* Estilo para o conteúdo principal */
+/* Main content */
 main {
+  grid-area: main;
   padding: 20px;
+  overflow-y: auto;
+  background-color: var(--background-color);
 }
 
-/* Estilo para o rodapé */
-footer {
-  background-color: var(--card-color);
-  text-align: center;
-  padding: 10px 0;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
+/* Media query para celular */
+@media (max-width: 768px) {
+  body {
+    grid-template-columns: 1fr;
+    grid-template-areas: 
+      "header"
+      "main";
+  }
+  
+  .sidebar {
+    display: none;
+  }
 }

@@ -6,8 +6,19 @@ class User {
     return result.rows;
   }
 
-  static async getById(id) {
-    const result = await db.query('SELECT * FROM users WHERE id = $1', [id]);
+  static async getByName(name) {
+    const result = await db.query('SELECT * FROM users WHERE name = $1', [name]);
+    return result.rows[0];
+  }
+
+  static async searchByName(name) {
+    const result = await db.query('SELECT * FROM users WHERE name ILIKE $1', [`%${name}%`]);
+    return result.rows;
+  }
+
+  static async authenticate(name) {
+    // Busca exata por nome para login
+    const result = await db.query('SELECT * FROM users WHERE name = $1', [name]);
     return result.rows[0];
   }
 
@@ -19,18 +30,24 @@ class User {
     return result.rows[0];
   }
 
-  static async update(id, data) {
+  static async update(name, data) {
     const result = await db.query(
-      'UPDATE users SET name = $1, photo = $2 WHERE id = $3 RETURNING *',
-      [data.name, data.photo, id]
+      'UPDATE users SET photo = $1 WHERE name = $2 RETURNING *',
+      [data.photo, name]
     );
     return result.rows[0];
   }
 
-  static async delete(id) {
-    const result = await db.query('DELETE FROM users WHERE id = $1 RETURNING *', [id]);
+  static async delete(name) {
+    const result = await db.query('DELETE FROM users WHERE name = $1 RETURNING *', [name]);
     return result.rowCount > 0;
+  }
+
+  static async exists(name) {
+    const result = await db.query('SELECT 1 FROM users WHERE name = $1', [name]);
+    return result.rows.length > 0;
   }
 }
 
 module.exports = User;
+

@@ -1,11 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const stateController = require('../controllers/stateController');
+const categoryController = require('../controllers/categoryController');
 
-router.get('/all', stateController.getAllStates);
-router.get('/:id', stateController.getStateById);
-router.post('/create', stateController.createState);
-router.put('/:id', stateController.updateState);
-router.delete('/:id', stateController.deleteState);
+// Rota principal para buscar todas as categorias (usada pelo frontend)
+router.get('/', categoryController.getAllCategories);
+
+// Rotas alternativas para compatibilidade
+router.get('/all', categoryController.getAllCategories);
+
+// Rotas CRUD
+router.get('/:id', categoryController.getCategoryById);
+router.post('/', categoryController.createCategory);
+router.post('/create', categoryController.createCategory);
+router.put('/:id', categoryController.updateCategory);
+router.delete('/:id', categoryController.deleteCategory);
 
 module.exports = router;
+

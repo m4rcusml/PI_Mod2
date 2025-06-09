@@ -1,8 +1,10 @@
-const db = require ('../config/db');
+const db = require('../config/db');
 
 class Category {
   static async getAll() {
-    const result = await db.query('SELECT * FROM categories');
+    console.log('Executando query: SELECT * FROM categories');
+    const result = await db.query('SELECT * FROM categories ORDER BY name');
+    console.log('Resultado da query categories:', result.rows);
     return result.rows;
   }
 
@@ -34,3 +36,4 @@ class Category {
 }
 
 module.exports = Category;
+

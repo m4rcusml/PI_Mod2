@@ -1,68 +1,81 @@
 const StateModel = require('../models/stateModel');
 
-async function getAllStates(req, res) {
+const getAllStates = async (req, res) => {
   try {
+    console.log('Buscando todos os estados...');
     const states = await StateModel.getAll();
+    console.log(`Encontrados ${states.length} estados:`, states);
     res.status(200).json(states);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Erro ao buscar estados:', error);
+    res.status(500).json({ error: error.message });
   }
-}
+};
 
-async function getStateById(req, res) {
+const getStateById = async (req, res) => {
   try {
     const state = await StateModel.getById(req.params.id);
     if (state) {
       res.status(200).json(state);
     } else {
-      res.status(404).json({ error: 'State not found' });
+      res.status(404).json({ error: 'Estado não encontrado' });
     }
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Erro ao buscar estado por ID:', error);
+    res.status(500).json({ error: error.message });
   }
-}
+};
 
-async function createState(req, res) {
+const createState = async (req, res) => {
   try {
     const { name } = req.body;
-    const newState = await StateModel.create(name);
+    
+    if (!name || !name.trim()) {
+      return res.status(400).json({ error: 'Nome do estado é obrigatório' });
+    }
+
+    const newState = await StateModel.create({ name: name.trim() });
+    console.log('Estado criado:', newState);
     res.status(201).json(newState);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Erro ao criar estado:', error);
+    res.status(500).json({ error: error.message });
   }
-}
+};
 
-async function updateState(req, res) {
+const updateState = async (req, res) => {
   try {
     const { name } = req.body;
-    const updatedState = await StateModel.update(req.params.id, { name });
+    
+    if (!name || !name.trim()) {
+      return res.status(400).json({ error: 'Nome do estado é obrigatório' });
+    }
+
+    const updatedState = await StateModel.update(req.params.id, { name: name.trim() });
     if (updatedState) {
       res.status(200).json(updatedState);
     } else {
-      res.status(404).json({ error: 'State not found' });
+      res.status(404).json({ error: 'Estado não encontrado' });
     }
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Erro ao atualizar estado:', error);
+    res.status(500).json({ error: error.message });
   }
-}
+};
 
-async function deleteState(req, res) {
+const deleteState = async (req, res) => {
   try {
     const deletedState = await StateModel.delete(req.params.id);
     if (deletedState) {
       res.status(200).json(deletedState);
     } else {
-      res.status(404).json({ error: 'State not found' });
+      res.status(404).json({ error: 'Estado não encontrado' });
     }
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Erro ao deletar estado:', error);
+    res.status(500).json({ error: error.message });
   }
-}
+};
 
 module.exports = {
   getAllStates,
@@ -71,3 +84,4 @@ module.exports = {
   updateState,
   deleteState
 };
+
