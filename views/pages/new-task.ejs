@@ -82,6 +82,40 @@
         gap: 16px;
     }
 
+    .select-with-button {
+        display: flex;
+        gap: 8px;
+        align-items: stretch;
+    }
+
+    .select-with-button .form-select {
+        flex: 1;
+    }
+
+    .add-button {
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 44px;
+    }
+
+    .add-button:hover {
+        background: #4f46e5;
+        transform: translateY(-1px);
+    }
+
+    .add-button svg {
+        width: 16px;
+        height: 16px;
+    }
+
     .submit-button {
         background: linear-gradient(135deg, var(--primary-color) 0%, #4f46e5 100%);
         color: white;
@@ -258,17 +292,33 @@
 
             <div class="form-group">
                 <label for="category_id" class="form-label">Categoria</label>
-                <select id="category_id" name="category_id" class="form-select" disabled>
-                    <option value="">Carregando categorias...</option>
-                </select>
+                <div class="select-with-button">
+                    <select id="category_id" name="category_id" class="form-select" disabled>
+                        <option value="">Carregando categorias...</option>
+                    </select>
+                    <button type="button" class="add-button" onclick="createCategory()" title="Criar nova categoria">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14"></path>
+                            <path d="M12 5v14"></path>
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
 
         <div class="form-group">
             <label for="state_id" class="form-label">Estado</label>
-            <select id="state_id" name="state_id" class="form-select" disabled>
-                <option value="">Carregando estados...</option>
-            </select>
+            <div class="select-with-button">
+                <select id="state_id" name="state_id" class="form-select" disabled>
+                    <option value="">Carregando estados...</option>
+                </select>
+                <button type="button" class="add-button" onclick="createStatus()" title="Criar novo estado">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14"></path>
+                        <path d="M12 5v14"></path>
+                    </svg>
+                </button>
+            </div>
         </div>
 
         <button type="submit" class="submit-button" id="submitButton">
@@ -491,6 +541,24 @@
     function goBack() {
         if (currentUserName) {
             window.location.href = `/home?userName=${encodeURIComponent(currentUserName)}`;
+        } else {
+            window.location.href = '/login';
+        }
+    }
+
+    // Create category function
+    function createCategory() {
+        if (currentUserName) {
+            window.location.href = `/create-category?userName=${encodeURIComponent(currentUserName)}`;
+        } else {
+            window.location.href = '/login';
+        }
+    }
+
+    // Create status function
+    function createStatus() {
+        if (currentUserName) {
+            window.location.href = `/create-status?userName=${encodeURIComponent(currentUserName)}`;
         } else {
             window.location.href = '/login';
         }

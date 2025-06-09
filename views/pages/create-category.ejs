@@ -1,0 +1,374 @@
+<style>
+    /* New Task page specific styles */
+    .new-task-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 24px;
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 32px;
+    }
+
+    .page-title {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--foreground-color);
+        margin-bottom: 8px;
+    }
+
+    .page-subtitle {
+        font-size: 16px;
+        color: #6b7280;
+    }
+
+    .task-form {
+        background: var(--card-color);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 32px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .form-group {
+        margin-bottom: 24px;
+    }
+
+    .form-label {
+        display: block;
+        font-weight: 600;
+        color: var(--foreground-color);
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        font-size: 16px;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        background: var(--card-color);
+        color: var(--foreground-color);
+        box-sizing: border-box;
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .form-textarea {
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    .form-select:disabled {
+        background-color: #f9fafb;
+        color: #6b7280;
+        cursor: not-allowed;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+
+    .submit-button {
+        background: linear-gradient(135deg, var(--primary-color) 0%, #4f46e5 100%);
+        color: white;
+        border: none;
+        padding: 14px 32px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        width: 100%;
+        margin-top: 8px;
+    }
+
+    .submit-button:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+    }
+
+    .submit-button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    .cancel-button {
+        background: transparent;
+        color: #6b7280;
+        border: 2px solid var(--border-color);
+        padding: 14px 32px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        width: 100%;
+        margin-top: 12px;
+    }
+
+    .cancel-button:hover {
+        border-color: #6b7280;
+        color: var(--foreground-color);
+    }
+
+    .loading-state {
+        display: none;
+        text-align: center;
+        color: var(--primary-color);
+        font-weight: 500;
+        margin-top: 16px;
+    }
+
+    .error-message {
+        background: #fee2e2;
+        border: 1px solid #fecaca;
+        color: #dc2626;
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-top: 16px;
+        display: none;
+    }
+
+    .success-message {
+        background: #d1fae5;
+        border: 1px solid #a7f3d0;
+        color: #065f46;
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-top: 16px;
+        display: none;
+    }
+
+    .user-info {
+        background: var(--card-color);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .user-welcome {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--foreground-color);
+    }
+
+    .back-button {
+        background: transparent;
+        color: var(--primary-color);
+        border: none;
+        font-size: 14px;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+    .back-button:hover {
+        color: #4f46e5;
+    }
+
+    /* Debug info */
+    .debug-info {
+        background: #f0f9ff;
+        border: 1px solid #0ea5e9;
+        border-radius: 8px;
+        padding: 12px;
+        margin-bottom: 16px;
+        font-family: monospace;
+        font-size: 12px;
+        color: #0c4a6e;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .new-task-container {
+            padding: 16px;
+        }
+
+        .task-form {
+            padding: 24px;
+        }
+
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+
+        .page-title {
+            font-size: 28px;
+        }
+    }
+</style>
+
+<div class="new-task-container">
+    <!-- User Info -->
+    <div class="user-info">
+        <div class="user-welcome" id="userWelcome">Carregando...</div>
+        <button class="back-button" onclick="goBack()">← Voltar para Home</button>
+    </div>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1 class="page-title">Nova Categoria</h1>
+        <p class="page-subtitle">Crie uma nova categoria para organizar suas tarefas</p>
+    </div>
+
+    <!-- Category Form -->
+    <form class="task-form" id="categoryForm">
+        <div class="form-group">
+            <label for="name" class="form-label">Nome da Categoria *</label>
+            <input type="text" id="name" name="name" class="form-input" required placeholder="Digite o nome da categoria">
+        </div>
+
+        <button type="submit" class="submit-button" id="submitButton">
+            Criar Categoria
+        </button>
+
+        <button type="button" class="cancel-button" onclick="goBack()">
+            Cancelar
+        </button>
+
+        <div class="loading-state" id="loadingState">
+            Criando categoria...
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
+    </form>
+</div>
+
+<script>
+    // Global variables
+    let currentUserName = null;
+
+    // Initialize user from localStorage
+    function initializeUser() {
+        currentUserName = localStorage.getItem('userName');
+        
+        if (!currentUserName) {
+            window.location.href = '/login';
+            return;
+        }
+
+        document.getElementById('userWelcome').textContent = `Criando categoria para: ${currentUserName}`;
+    }
+
+    // DOM elements
+    const categoryForm = document.getElementById('categoryForm');
+    const submitButton = document.getElementById('submitButton');
+    const loadingState = document.getElementById('loadingState');
+    const errorMessage = document.getElementById('errorMessage');
+    const successMessage = document.getElementById('successMessage');
+
+    // Show error message
+    function showError(message) {
+        errorMessage.textContent = message;
+        errorMessage.style.display = 'block';
+        successMessage.style.display = 'none';
+    }
+
+    // Show success message
+    function showSuccess(message) {
+        successMessage.textContent = message;
+        successMessage.style.display = 'block';
+        errorMessage.style.display = 'none';
+    }
+
+    // Hide messages
+    function hideMessages() {
+        errorMessage.style.display = 'none';
+        successMessage.style.display = 'none';
+    }
+
+    // Form submission
+    categoryForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        hideMessages();
+
+        if (!currentUserName) {
+            showError('Usuário não identificado. Faça login novamente.');
+            return;
+        }
+
+        const name = document.getElementById('name').value.trim();
+
+        if (!name) {
+            showError('O nome da categoria é obrigatório.');
+            return;
+        }
+
+        const categoryData = {
+            name
+        };
+
+        console.log('Enviando dados da categoria:', categoryData);
+
+        // Show loading state
+        submitButton.disabled = true;
+        loadingState.style.display = 'block';
+
+        try {
+            const response = await fetch('/api/categories', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(categoryData)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Erro ao criar categoria');
+            }
+
+            const newCategory = await response.json();
+            console.log('Categoria criada:', newCategory);
+            showSuccess('Categoria criada com sucesso!');
+            
+            // Redirect to new-task after a short delay
+            setTimeout(() => {
+                window.location.href = `/new-task?userName=${encodeURIComponent(currentUserName)}`;
+            }, 1500);
+
+        } catch (error) {
+            console.error('Erro ao criar categoria:', error);
+            showError(error.message || 'Erro ao criar categoria. Tente novamente.');
+        } finally {
+            // Hide loading state
+            submitButton.disabled = false;
+            loadingState.style.display = 'none';
+        }
+    });
+
+    // Navigation functions
+    function goBack() {
+        if (currentUserName) {
+            window.location.href = `/new-task?userName=${encodeURIComponent(currentUserName)}`;
+        } else {
+            window.location.href = '/login';
+        }
+    }
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeUser();
+    });
+</script>
+
+

@@ -27,6 +27,27 @@ router.get('/tasks/new', (req, res) => {
   });
 });
 
+router.get('/new-task', (req, res) => {
+  res.render(path.join(__dirname, '../views/layout/main'), {
+    pageTitle: 'Adicionar Tarefa',
+    contentPage: path.join(__dirname, '../views/pages/new-task')
+  });
+});
+
+router.get('/create-category', (req, res) => {
+  res.render(path.join(__dirname, '../views/layout/main'), {
+    pageTitle: 'Criar Categoria',
+    contentPage: path.join(__dirname, '../views/pages/create-category')
+  });
+});
+
+router.get('/create-status', (req, res) => {
+  res.render(path.join(__dirname, '../views/layout/main'), {
+    pageTitle: 'Criar Estado',
+    contentPage: path.join(__dirname, '../views/pages/create-status')
+  });
+});
+
 router.get('/tasks/:id/edit', (req, res) => {
   res.render(path.join(__dirname, '../views/layout/main'), {
     pageTitle: 'Editar Tarefa',
