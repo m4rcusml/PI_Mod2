@@ -9,7 +9,10 @@ router.get('/', (req, res) => {
 
 // Rota de login
 router.get('/login', (req, res) => {
-  res.render(path.join(__dirname, '../views/pages/login'));
+  res.render(path.join(__dirname, '../views/layout/main'), {
+    pageTitle: 'Login',
+    contentPage: path.join(__dirname, '../views/pages/login')
+  });
 });
 
 // Rota home

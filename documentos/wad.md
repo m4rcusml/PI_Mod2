@@ -209,11 +209,66 @@ Para mais detalhes, [clique aqui](https://www.figma.com/design/8lns9JLHhsVktHfxq
 
 ### 3.4. Guia de estilos (Semana 05)
 
-*Descreva aqui orientações gerais para o leitor sobre como utilizar os componentes do guia de estilos de sua solução.*
+O sistema Organyze adota um guia de estilos coeso para garantir uma experiência de usuário consistente e visualmente agradável. A paleta de cores principal é composta por tons escuros para o fundo, com elementos de destaque em roxo vibrante, conferindo um visual moderno e focado. A tipografia utilizada é limpa e legível, priorizando a clareza das informações. Os componentes de interface, como botões, campos de entrada e cards, seguem um design minimalista com bordas arredondadas e sombras sutis, proporcionando uma sensação de profundidade e interatividade. A responsividade é um pilar fundamental do design, garantindo que a aplicação se adapte perfeitamente a diferentes tamanhos de tela, desde desktops até dispositivos móveis, sem comprometer a usabilidade ou a estética. Elementos como a barra lateral de navegação e os layouts de conteúdo são projetados para se ajustarem dinamicamente, otimizando o espaço e a legibilidade em qualquer dispositivo. O objetivo é oferecer uma interface intuitiva e eficiente, onde o usuário possa focar em suas tarefas sem distrações visuais.
+
+O guia de estilos encontra-se disponível no [figma](https://www.figma.com/design/8lns9JLHhsVktHfxq3R76G/Organyze?node-id=0-1&t=gwQ4VpC4w6TXANxS-1)
 
 ### 3.5. Protótipo de alta fidelidade (Semana 05)
 
-*Posicione aqui algumas imagens demonstrativas de seu protótipo de alta fidelidade e o link para acesso ao protótipo completo (mantenha o link sempre público para visualização).*
+O protótipo de alta fidelidade do sistema Organyze, desenvolvido no Figma, apresenta a interface do usuário com detalhes visuais e interativos que simulam a experiência final do produto. As imagens a seguir demonstram as telas principais do protótipo, que serviram como base para o desenvolvimento do web app. É importante notar que, durante o processo de desenvolvimento, algumas telas foram modificadas ou adicionadas, resultando em diferenças entre o protótipo e a aplicação final.
+
+Protótipos de Alta Fidelidade:
+
+<div align="center">
+  <img src="../assets/docs/tela_home_prototipo.png" alt="Protótipo - Tela Inicial" style="max-width: 100%; width: 80%;"/>
+  <p>Tela Inicial (Protótipo)</p>
+</div>
+
+<div align="center">
+  <img src="../assets/docs/tela_kanban_prototipo.png" alt="Protótipo - Tela Kanban" style="max-width: 100%; width: 80%;"/>
+  <p>Tela Kanban (Protótipo)</p>
+</div>
+
+<div align="center">
+  <img src="../assets/docs/tela_criar_tarefas_prototipo.png" alt="Protótipo - Tela Criar Tarefa" style="max-width: 100%; width: 80%;"/>
+  <p>Tela Criar Tarefa (Protótipo)</p>
+</div>
+
+<div align="center">
+  <img src="../assets/docs/tela_metricas_prototipo.png" alt="Protótipo - Tela Métricas" style="max-width: 100%; width: 80%;"/>
+  <p>Tela Métricas (Protótipo)</p>
+</div>
+
+Telas Desenvolvidas (Web App):
+
+<div align="center">
+  <img src="../assets/docs/tela_home_desenvolvida.png" alt="Desenvolvida - Tela Inicial" style="max-width: 100%; width: 80%;"/>
+  <p>Tela Inicial (Desenvolvida)</p>
+</div>
+
+<div align="center">
+  <img src="../assets/docs/tela_kanban_desenvolvida.png" alt="Desenvolvida - Tela Kanban" style="max-width: 100%; width: 80%;"/>
+  <p>Tela Kanban (Desenvolvida)</p>
+</div>
+
+<div align="center">
+  <img src="../assets/docs/tela_todas_as_tarefas_desenvolvida.png" alt="Desenvolvida - Tela Todas as Tarefas" style="max-width: 100%; width: 80%;"/>
+  <p>Tela Todas as Tarefas (Desenvolvida)</p>
+</div>
+
+<div align="center">
+  <img src="../assets/docs/tela_criar_tarefa_desenvolvida.png" alt="Desenvolvida - Tela Criar Tarefa" style="max_width: 100%; width: 80%;"/>
+  <p>Tela Criar Tarefa (Desenvolvida)</p>
+</div>
+
+<div align="center">
+  <img src="../assets/docs/tela_perfil_desenvolvida.png" alt="Desenvolvida - Tela Perfil" style="max-width: 100%; width: 80%;"/>
+  <p>Tela Perfil (Desenvolvida)</p>
+</div>
+
+Observações sobre as diferenças entre protótipo e web app:
+
+Durante o desenvolvimento, foram observadas algumas diferenças entre as telas prototipadas e as telas implementadas no web app. Por exemplo, a tela de 'Métricas' presente no protótipo não foi implementada no web app. Por outro lado, telas como 'Todas as Tarefas' e 'Perfil' foram desenvolvidas no web app, mas não estavam presentes no protótipo de alta fidelidade. Essas variações refletem o processo iterativo de desenvolvimento, onde as necessidades e prioridades podem evoluir ao longo do tempo.
 
 ### 3.6. WebAPI e endpoints (Semana 05)
 
@@ -268,7 +323,40 @@ Além dos endpoints da API, a aplicação também possui rotas para renderizaç�
 
 ### 3.7 Interface e Navegação (Semana 07)
 
-*Descreva e ilustre aqui o desenvolvimento do frontend do sistema web, explicando brevemente o que foi entregue em termos de código e sistema. Utilize prints de tela para ilustrar.*
+O desenvolvimento do frontend do sistema web Organyze foi focado em proporcionar uma interface intuitiva e responsiva, garantindo uma experiência de usuário consistente em diferentes dispositivos. A arquitetura Model-View-Controller (MVC) foi adotada, onde a camada View é responsável pela apresentação dos dados e pela interação com o usuário. As Views foram implementadas utilizando EJS (Embedded JavaScript templates) e estão localizadas na pasta `views` do projeto.
+
+O guia de estilos, detalhado na seção 3.4, foi fundamental para a construção visual do frontend, definindo a paleta de cores (tons escuros com destaque em roxo vibrante), tipografia limpa e legível, e componentes de interface minimalistas com bordas arredondadas e sombras sutis. A responsividade foi um pilar do design, com elementos como a barra lateral de navegação e layouts de conteúdo ajustando-se dinamicamente para otimizar o espaço e a legibilidade em desktops e dispositivos móveis.
+
+Os wireframes (seção 3.3) e os protótipos de alta fidelidade (seção 3.5) serviram como base para o desenvolvimento das telas principais, incluindo a tela inicial com resumo de tarefas, tela de adicionar tarefa, visualização em Kanban e tela de estatísticas. Embora algumas telas prototipadas não tenham sido implementadas (como a de Métricas), outras foram adicionadas durante o desenvolvimento (como 'Todas as Tarefas' e 'Perfil'), refletindo a natureza iterativa do processo.
+
+Em termos de código e sistema, o frontend é o resultado da renderização das Views pelo Controller, que recebe os dados processados do Model e os exibe ao usuário. As interações do usuário na interface são capturadas pelas Views e enviadas aos Controllers via requisições HTTP, completando o fluxo de dados na arquitetura MVC.
+
+### Ilustrações das Telas Desenvolvidas (Web App):
+
+<div align="center">
+  <img src="../assets/docs/tela_home_desenvolvida.png" alt="Desenvolvida - Tela Inicial" style="max-width: 100%; width: 80%;"/>
+  <p>Tela Inicial (Desenvolvida)</p>
+</div>
+
+<div align="center">
+  <img src="../assets/docs/tela_kanban_desenvolvida.png" alt="Desenvolvida - Tela Kanban" style="max-width: 100%; width: 80%;"/>
+  <p>Tela Kanban (Desenvolvida)</p>
+</div>
+
+<div align="center">
+  <img src="../assets/docs/tela_todas_as_tarefas_desenvolvida.png" alt="Desenvolvida - Tela Todas as Tarefas" style="max-width: 100%; width: 80%;"/>
+  <p>Tela Todas as Tarefas (Desenvolvida)</p>
+</div>
+
+<div align="center">
+  <img src="../assets/docs/tela_criar_tarefa_desenvolvida.png" alt="Desenvolvida - Tela Criar Tarefa" style="max-width: 100%; width: 80%;"/>
+  <p>Tela Criar Tarefa (Desenvolvida)</p>
+</div>
+
+<div align="center">
+  <img src="../assets/docs/tela_perfil_desenvolvida.png" alt="Desenvolvida - Tela Perfil" style="max-width: 100%; width: 80%;"/>
+  <p>Tela Perfil (Desenvolvida)</p>
+</div>
 
 ---
 
